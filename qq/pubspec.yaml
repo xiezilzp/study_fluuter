@@ -1,4 +1,4 @@
-name: bookworm
+name: qq
 description: A new Flutter project.
 
 # The following defines the version and build number for your application.
@@ -66,24 +66,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages
-
-  assets:
-    - assets/images/001.jpg
-    - assets/images/002.jpg
-    - assets/images/003.jpg
-    - assets/images/004.jpg
-    - assets/images/005.jpg
-    - assets/images/number_01.png
-    - assets/images/number_02.png
-    - assets/images/number_03.png
-    - assets/images/number_04.png
-    - assets/images/number_05.png
-    - assets/images/number_06.png
-
-  fonts:
-    - family: bw_text_font
-      fonts:
-        - asset: assets/fonts/bw_text_font.ttf
-    - family: bw_icon_font
-      fonts:
-        - asset: assets/fonts/bw_icon_font.ttf
