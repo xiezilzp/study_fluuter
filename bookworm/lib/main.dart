@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import './bw_constants.dart' show AppColors;
-import './screen/bw_main_screen.dart';
+import './screen/bw_screen_main.dart';
 // import './widget/bw_widget_bottom_navigation.dart';
 
 void main() => runApp(MyApp());

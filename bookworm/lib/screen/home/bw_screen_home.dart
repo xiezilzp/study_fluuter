@@ -1,112 +1,79 @@
 import 'package:flutter/material.dart';
-import '../bw_constants.dart' show AppColors, AppStyle, Constans;
+import '../../bw_constants.dart' show AppColors, AppStyle, Constans;
 import 'dart:ui';
 
-class NavigationIconView {
-  final BottomNavigationBarItem item;
+class ActionIconButton {
+  final IconButton item;
 
-  NavigationIconView({Key key, String title, IconData icon})
-      : item = BottomNavigationBarItem(
+  ActionIconButton(
+      {Key key,
+      @required int iconData,
+      String tooltip,
+      Color iconColor,
+      @required onPressed})
+      : item = IconButton(
           icon: Icon(
-            icon,
-            // color: AppColors.AppIconNormalColor,
+            IconData(iconData, fontFamily: Constans.AppIconFontFamily),
+            color: iconColor,
           ),
-          title: Text(
-            title,
-            // style: TextStyle(color: AppColors.AppIconPraiseColor),
-          ),
+          tooltip: tooltip,
+          onPressed: onPressed,
+          padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
         );
 }
 
-class MainScreen extends StatefulWidget {
-  _MainScreenState createState() => _MainScreenState();
+class HomeScreen extends StatefulWidget {
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
-  // 首页点赞
-  static bool _isPraise = false;
-  Color _iconColor = AppColors.AppIconNormalColor;
-
-  // 底部菜单
-  int _currentIndex = 0;
-  List<NavigationIconView> _navigationViews;
-
+class _HomeScreenState extends State<HomeScreen> {
   // 屏幕宽高
   double _width = window.physicalSize.width / window.devicePixelRatio;
   double _height = window.physicalSize.height / window.devicePixelRatio;
 
-  // 页面管理
-  List<Widget> _screenItems;
+  // ActionItems
+  List<ActionIconButton> _actionIconButton;
+
+  // 首页点赞
+  static bool _isPraise = false;
+  Color _iconColor = AppColors.AppIconNormalColor;
 
   @override
   void initState() {
+    _actionIconButton = [
+      ActionIconButton(
+          iconData: 0xe638,
+          tooltip: '评论',
+          iconColor: AppColors.AppIconNormalColor,
+          onPressed: () {}),
+      ActionIconButton(
+          iconData: 0xe63d,
+          tooltip: '点赞',
+          iconColor: _iconColor,
+          onPressed: () {
+            setState(() {
+              _isPraise = !_isPraise;
+              _iconColor = _isPraise
+                  ? AppColors.AppIconPraiseColor
+                  : AppColors.AppIconNormalColor;
+              print(_iconColor);
+            });
+          })
+    ];
     super.initState();
-    _navigationViews = [
-      NavigationIconView(
-          title: '首页',
-          icon: IconData(0xe630, fontFamily: Constans.AppIconFontFamily)),
-      NavigationIconView(
-          title: '发现',
-          icon: IconData(0xe657, fontFamily: Constans.AppIconFontFamily)),
-      NavigationIconView(
-          title: '我的',
-          icon: IconData(0xe636, fontFamily: Constans.AppIconFontFamily)),
-    ];
-    
-    _screenItems = [
-
-    ];
   }
 
   @override
   Widget build(BuildContext context) {
-    final BottomNavigationBar botNavBar = BottomNavigationBar(
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
-        fixedColor: AppColors.AppIconActivateColor,
-        items: _navigationViews.map((NavigationIconView view) {
-          return view.item;
-        }).toList(),
-        onTap: (int index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        });
-
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       appBar: AppBar(
         title: Text('书虫', style: AppStyle.AppTitleStyle),
         elevation: 0.0,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              IconData(0xe638, fontFamily: Constans.AppIconFontFamily),
-              color: AppColors.AppIconNormalColor,
-            ),
-            tooltip: '评论',
-            onPressed: () {},
-            padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
-          ),
-          IconButton(
-            icon: Icon(
-              IconData(0xe63d, fontFamily: Constans.AppIconFontFamily),
-              color: _iconColor,
-            ),
-            tooltip: '点赞',
-            onPressed: () {
-              setState(() {
-                _isPraise = !_isPraise;
-                _iconColor = _isPraise
-                    ? AppColors.AppIconPraiseColor
-                    : AppColors.AppIconNormalColor;
-                print(window.devicePixelRatio);
-              });
-            },
-            padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
-          ),
-        ],
+        actions: _actionIconButton.map((ActionIconButton view) {
+          return view.item;
+        }).toList(),
       ),
-      bottomNavigationBar: botNavBar,
       body: Container(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,6 +180,6 @@ class _MainScreenState extends State<MainScreen> {
           )
         ],
       )),
-    );
+    ));
   }
 }
